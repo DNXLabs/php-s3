@@ -119,13 +119,13 @@ class Controller extends BaseController
     public function __construct(){}
 
 
-    public function listObjects(Request $request, string $bucket)
+    public function listObjects(Request $request)
     {
         try {
+            $query  = (object)$request->all();
             // CredentialProvider is optional, we recommend to use user roles and do not use credentials
             $readS3 = new ReadItem(CredentialProvider::env());
-            $path   = $request->get('path');
-            $res    = $readS3->listObjects($bucket, $request->get('path'));
+            $res    = $readS3->listObjects($query->bucket, $query->path);
             return view('s3.list', [ 'list' => $res->list, 'bucket' => $bucket]);
         } catch(S3Exception $e) {
             return [ 'response' => 'error', 'message' => $e->getAwsErrorMessage(), 'code' => $e->getStatusCode() ]; 
@@ -134,13 +134,13 @@ class Controller extends BaseController
         }
     }
     
-    public function getObject(Request $request, string $bucket)
+    public function getObject(Request $request)
     {
         try {
             $query  = (object)$request->all();
             // CredentialProvider is optional, we recommend to use user roles and do not use credentials
             $readS3 = new ReadItem(CredentialProvider::env());
-            $object = $readS3->getObject($bucket, $query->filePath);
+            $object = $readS3->getObject($query->bucket, $query->filePath);
             $headers = [
                 'Content-Type'        => $object->file['ContentType'],
                 'Content-Disposition' => 'attachment; filename=' . $query->file
