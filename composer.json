@@ -3,7 +3,7 @@
   "description": "Manage S3 Files using AWS SDK for PHP",
   "type": "library",
   "license": "MIT",
-  "keywords": ["s3", "aws"],
+  "keywords": ["s3", "aws", "php", "laravel"],
   "require": {
     "php": ">=7.1",
     "aws/aws-sdk-php": "^3.158"
