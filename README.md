@@ -123,8 +123,9 @@ class Controller extends BaseController
     {
         try {
             $query  = (object)$request->all();
+            // Region required, if code not found, will set to sydney
             // CredentialProvider is optional, we recommend to use user roles and do not use credentials
-            $readS3 = new ReadItem(CredentialProvider::env());
+            $readS3 = new ReadItem('ap-southeast-2', CredentialProvider::env());
             $res    = $readS3->listObjects($query->bucket, $query->path);
             return view('s3.list', [ 'list' => $res->list, 'bucket' => $bucket]);
         } catch(S3Exception $e) {
@@ -139,7 +140,7 @@ class Controller extends BaseController
         try {
             $query  = (object)$request->all();
             // CredentialProvider is optional, we recommend to use user roles and do not use credentials
-            $readS3 = new ReadItem(CredentialProvider::env());
+            $readS3 = new ReadItem('ap-southeast-2', CredentialProvider::env());
             $object = $readS3->getObject($query->bucket, $query->filePath);
             $headers = [
                 'Content-Type'        => $object->file['ContentType'],
@@ -162,7 +163,7 @@ class Controller extends BaseController
         try {
             $query      = (object)$request->all();
             // CredentialProvider is optional, we recommend to use user roles and do not use credentials
-            $readS3     = new ReadItem(CredentialProvider::env());
+            $readS3     = new ReadItem('ap-southeast-2', CredentialProvider::env());
             $url        = $readS3->getCloudFrontURL($query->bucket, $query->filePath);
             return $url;
         } catch(S3Exception $e) {
@@ -188,7 +189,7 @@ class Controller extends BaseController
                 ]);
             }
             // CredentialProvider is optional, we recommend to use user roles and do not use credentials
-            $createS3   = new CreateItem(CredentialProvider::env());
+            $createS3   = new CreateItem('ap-southeast-2', CredentialProvider::env());
             $res        = $createS3->uploadObjects($query->bucket, $files);
             foreach($res->results as $index => $result)
             {
@@ -212,7 +213,7 @@ class Controller extends BaseController
         try {
             $query      = (object)$request->all();
             // CredentialProvider is optional, we recommend to use user roles and do not use credentials
-            $deleteS3   = new DeleteItem(CredentialProvider::env());
+            $deleteS3   = new DeleteItem('ap-southeast-2', CredentialProvider::env());
             $res        = $deleteS3->deleteObject($query->bucket, $query->filePath);
             return $res;
         } catch(S3Exception $e) {

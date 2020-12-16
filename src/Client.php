@@ -14,10 +14,10 @@ class Client
     protected $cloudFrontClient;
     private $region;
 
-    public function __construct($provider = null)
+    public function __construct(string $region, $provider = null)
     {
         // If no region is provided we shall default to Sydney
-        $this->region = $this->region ?: Region::sydney();
+        $this->region = Region::fromCode($region) ?: Region::sydney();
         $params = [
             'region'  => $this->region->code(),
             'version' => 'latest'
