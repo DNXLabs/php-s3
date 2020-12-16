@@ -13,9 +13,9 @@ class DeleteItem extends Client
      *
      * @return void
      */
-    public function __construct($provider = null)
+    public function __construct(string $region, $provider = null)
     {
-        parent::__construct($provider);
+        parent::__construct($region, $provider);
     }
 
     /**
