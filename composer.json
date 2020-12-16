@@ -5,6 +5,7 @@
   "license": "MIT",
   "keywords": ["s3", "aws"],
   "require": {
+    "php": ">=7.1",
     "aws/aws-sdk-php": "^3.158"
   },
   "require-dev": {
